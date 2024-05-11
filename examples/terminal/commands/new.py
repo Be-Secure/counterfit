@@ -18,13 +18,13 @@ target_dt_obj_map = {
 
 
 def get_datatypes():
-    return list(target_dt_obj_map.keys())
+    return list(target_dt_obj_map.keys()) 
 
 
 def new_cmd(args: argparse.Namespace) -> None:
     """Optional wizard to aid in creating a new attack target.
     """
-
+    print ('args: ', args) ## remove it
     target_name = args.name.replace(" ", "")
     
     if not args.data_type:
@@ -32,11 +32,15 @@ def new_cmd(args: argparse.Namespace) -> None:
     else:
         target_data_type = args.data_type
 
+    ## remove it
+    #pdb.set_trace()
+    cwd = os.getcwd()
+    print("Current Working Directory:", cwd)
+
     if target_name not in os.listdir(Config.targets_path):
         try:
-            os.mkdir(f"{Config.targets_path}/{target_name}")
-            open(f"{Config.targets_path}/{target_name}/__init__.py", "w").close()
-            with open(f"{Config.targets_path}/{target_name}/{target_name}.py", "w") as f:
+            #os.mkdir(f"{Config.targets_path}/{target_name}")
+            with open(f"{Config.targets_path}/{target_name}.py", "w") as f:
                 f.write(
                     f"""
 
@@ -44,13 +48,15 @@ def new_cmd(args: argparse.Namespace) -> None:
 
 from counterfit.core.targets import CFTarget
 
-class {target_name.capitalize()}(Target):
+class {target_name.capitalize()}(CFTarget):
     target_name = "{target_name}"
-    target_data_type = "{target_data_type}"
-    target_endpoint = ""
+    data_type = "{target_data_type}"
+    task = ""
+    endpoint = ""
     input_shape = ()
-    target_output_classes = []
-    target_classifier = ""
+    output_classes = []
+    classifier = ""
+    sample_input_path = ""
     X = []
 
     def load(self):
@@ -60,6 +66,12 @@ class {target_name.capitalize()}(Target):
         return x
 """
                 )
+        
+            with open(f"{Config.targets_path}/__init__.py", "a") as init:
+                init.write(
+                    f"\nfrom .{target_name} import {target_name.capitalize()}"
+                )
+            
         except Exception as e:
             CFPrint.warn(f"Failed to write target file: {e}.")
     else:
@@ -70,15 +82,33 @@ class {target_name.capitalize()}(Target):
     module_path = ".".join(
         f"{Config.targets_path}/{target_name}/{target_name}/{target_name.capitalize()}".split("/"))
     new_target = locate(module_path)
-
+    print("success!")
     # Add the target to the session
-    CFState.state().add_target(target_name, new_target())
+    #CFState.state().add_target(target_name, new_target())
+    
+    #remove it
+    '''
+    test_target = {
+        cls, 
+        data_type: "text", 
+        endpoint: "satellite/satellite-image-params-airplane-stadium.h5", 
+        output_classes: ["airplane", "stadium"],
+        classifier: str,
+        input_shape: tuple,
+        load_func: object,
+        predict_func: object,
+        X: list
+    }
+    '''
+    #CFState.state().build_new_target(test_target)
+
 
     # Load the target
-    target = CFState.state().load_target(target_name)
+    #target = CFState.state().load_target(target_name)
+    #target = CFState.state().reload_target()
 
     # Set it as the active target
-    CFState.state().set_active_target(target)
+    #CFState.state().set_active_target(target)
 
 
 new_args = cmd2.Cmd2ArgumentParser()

@@ -13,5 +13,5 @@ class Config:
     """
 
     counterfit_dir = "counterfit"
-    targets_dir = "../targets"
+    targets_path = "counterfit/targets"
     supported_data_types = ["image", "tabular"]

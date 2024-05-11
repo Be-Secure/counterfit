@@ -39,6 +39,9 @@ def list_targets() -> Table:
     table.add_column("Endpoint")
     # table.add_column("Loaded")
     for target_name, target_obj in sorted(CFState.state().get_targets().items()):
+        ## remove it
+        #print(f"target name: {target_name}")
+        #print(f"target obj: {target_obj}")
         active_target_class = CFState.state().active_target.__class__
         if isinstance(target_obj, active_target_class):
             target_name = f"*{target_name}"

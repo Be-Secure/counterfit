@@ -5,9 +5,12 @@ import sys
 
 from counterfit import CFAttack, CFPrint, CFTarget, Counterfit
 # from counterfit.core.frameworks import CFFramework
-from counterfit.targets import (CreditFraud, DigitKeras, Digits, MovieReviewsTarget, SatelliteImages,
-                                CartPoleInitState, CartPole)
+#from counterfit.targets import (CreditFraud, DigitKeras, Digits, MovieReviewsTarget, SatelliteImages,
+#                                CartPoleInitState, CartPole)
+#from counterfit.targets import * 
+import counterfit.targets
 
+'''
 targets = [
     CreditFraud,
     DigitKeras,
@@ -16,7 +19,7 @@ targets = [
     SatelliteImages,
     CartPole,
     CartPoleInitState
-]
+]'''
 
 class CFState:
     """Singleton class responsible for managing targets and attacks.
@@ -39,7 +42,7 @@ class CFState:
 
         self.frameworks = {}
         self.target2attacks = {}
-        self.targets = {x.target_name: x() for x in targets}
+        self.targets = {}
         self.scans = {}
         self.active_target = None
         self.active_attack = None
@@ -74,8 +77,12 @@ class CFState:
         and methods to interact with a target machine learning system.
 
         """
-        return self.targets
+        target_classes = [getattr(counterfit.targets, cls) for cls in dir(counterfit.targets) if callable(getattr(counterfit.targets, cls))]
+        targets = [cls for cls in target_classes if isinstance(cls, type)]
+        self.targets = {x.target_name: x() for x in targets}
+        print(f"targets: {self.targets}")
 
+        return self.targets
 
     def reload_target(self):
         """Reloads the active target.

@@ -57,7 +57,7 @@ setuptools.setup(
             "examples"
         ]
     ),
-    install_requires=required,
+    #install_requires=required,
     python_requires=">=3.8",
     extras_require=extras,
     entry_points={
