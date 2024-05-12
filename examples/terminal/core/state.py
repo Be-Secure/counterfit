@@ -2,12 +2,15 @@
 from typing import List
 import importlib
 import sys
+import os
 
 from counterfit import CFAttack, CFPrint, CFTarget, Counterfit
 # from counterfit.core.frameworks import CFFramework
 #from counterfit.targets import (CreditFraud, DigitKeras, Digits, MovieReviewsTarget, SatelliteImages,
 #                                CartPoleInitState, CartPole)
 #from counterfit.targets import * 
+#import counterfit.targets
+import importlib
 import counterfit.targets
 
 '''
@@ -68,7 +71,6 @@ class CFState:
         """
         return Counterfit.get_frameworks()
 
-
     # Targets
     def get_targets(self):
         """Imports available targets from the targets folder.
@@ -77,6 +79,8 @@ class CFState:
         and methods to interact with a target machine learning system.
 
         """
+        importlib.reload(counterfit.targets)  # Reload the module each time
+
         target_classes = [getattr(counterfit.targets, cls) for cls in dir(counterfit.targets) if callable(getattr(counterfit.targets, cls))]
         targets = [cls for cls in target_classes if isinstance(cls, type)]
         self.targets = {x.target_name: x() for x in targets}

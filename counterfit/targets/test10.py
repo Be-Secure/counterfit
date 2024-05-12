@@ -4,8 +4,8 @@
 
 from counterfit.core.targets import CFTarget
 
-class Test2(CFTarget):
-    target_name = "test2"
+class Test10(CFTarget):
+    target_name = "test10"
     data_type = "text"
     task = ""
     endpoint = ""
