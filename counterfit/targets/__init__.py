@@ -4,16 +4,5 @@ from .digits_keras import DigitKeras
 from .movie_reviews import MovieReviewsTarget
 from .satellite import SatelliteImages
 from .cart_pole import CartPoleInitState, CartPole
+from .testtarget import Testtarget
 from .test import Test
-from .test1 import Test1
-from .test2 import Test2
-from .test3 import Test3
-from .test4 import Test4
-from .test5 import Test5
-from .test6 import Test6
-from .test7 import Test7
-from .test8 import Test8
-from .test9 import Test9
-from .test10 import Test10
-from .test11 import Test11
-from .test12 import Test12

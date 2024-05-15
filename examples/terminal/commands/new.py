@@ -78,38 +78,7 @@ class {target_name.capitalize()}(CFTarget):
         CFPrint.warn(
             f"{target_name} already exists. Choose a new name.")
 
-    # Instantiate the new target
-    module_path = ".".join(
-        f"{Config.targets_path}/{target_name}/{target_name}/{target_name.capitalize()}".split("/"))
-    new_target = locate(module_path)
-    print("success!")
-    # Add the target to the session
-    #CFState.state().add_target(target_name, new_target())
-    
-    #remove it
-    '''
-    test_target = {
-        cls, 
-        data_type: "text", 
-        endpoint: "satellite/satellite-image-params-airplane-stadium.h5", 
-        output_classes: ["airplane", "stadium"],
-        classifier: str,
-        input_shape: tuple,
-        load_func: object,
-        predict_func: object,
-        X: list
-    }
-    '''
-    #CFState.state().build_new_target(test_target)
-
-
-    # Load the target
-    #target = CFState.state().load_target(target_name)
-    #target = CFState.state().reload_target()
-
-    # Set it as the active target
-    #CFState.state().set_active_target(target)
-
+    print(f"{target_name} added successfully!")
 
 new_args = cmd2.Cmd2ArgumentParser()
 new_args.add_argument("-n", "--name", help="a name for the new target", required=True)

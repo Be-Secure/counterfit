@@ -79,12 +79,11 @@ class CFState:
         and methods to interact with a target machine learning system.
 
         """
-        importlib.reload(counterfit.targets)  # Reload the module each time
+        importlib.reload(counterfit.targets)
 
         target_classes = [getattr(counterfit.targets, cls) for cls in dir(counterfit.targets) if callable(getattr(counterfit.targets, cls))]
         targets = [cls for cls in target_classes if isinstance(cls, type)]
         self.targets = {x.target_name: x() for x in targets}
-        print(f"targets: {self.targets}")
 
         return self.targets
 

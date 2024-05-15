@@ -6,7 +6,7 @@ from counterfit.core.targets import CFTarget
 
 class Test(CFTarget):
     target_name = "test"
-    data_type = "text"
+    data_type = "image"
     task = ""
     endpoint = ""
     input_shape = ()
