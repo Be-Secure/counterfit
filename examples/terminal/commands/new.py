@@ -24,18 +24,12 @@ def get_datatypes():
 def new_cmd(args: argparse.Namespace) -> None:
     """Optional wizard to aid in creating a new attack target.
     """
-    print ('args: ', args) ## remove it
     target_name = args.name.replace(" ", "")
     
     if not args.data_type:
         target_data_type = ""
     else:
         target_data_type = args.data_type
-
-    ## remove it
-    #pdb.set_trace()
-    cwd = os.getcwd()
-    print("Current Working Directory:", cwd)
 
     if target_name not in os.listdir(Config.targets_path):
         try:

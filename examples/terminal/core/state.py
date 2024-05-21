@@ -11,7 +11,7 @@ from counterfit import CFAttack, CFPrint, CFTarget, Counterfit
 #from counterfit.targets import * 
 #import counterfit.targets
 import importlib
-import counterfit.targets
+
 
 '''
 targets = [
@@ -79,6 +79,7 @@ class CFState:
         and methods to interact with a target machine learning system.
 
         """
+        import counterfit.targets
         importlib.reload(counterfit.targets)
 
         target_classes = [getattr(counterfit.targets, cls) for cls in dir(counterfit.targets) if callable(getattr(counterfit.targets, cls))]
