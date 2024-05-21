@@ -28,12 +28,12 @@ install_anaconda() {
         echo "Anaconda is already installed."
     else
         echo "Installing Anaconda..."
-        wget https://repo.anaconda.com/archive/Anaconda3-2023.03-Linux-x86_64.sh -O anaconda.sh
-        bash anaconda.sh -b -p $HOME/anaconda3
+        wget https://repo.anaconda.com/archive/Anaconda3-2023.03-Linux-x86_64.sh -O /tmp/anaconda.sh
+        bash /tmp/anaconda.sh -b -p $HOME/anaconda3
         eval "$($HOME/anaconda3/bin/conda shell.bash hook)"
         conda init bash
         source ~/.bashrc
-        rm anaconda.sh
+        rm /tmp/anaconda.sh
     fi
 }
 
@@ -46,7 +46,7 @@ create_conda_environment() {
 
 install_counterfit_tool() {
     echo "Cloning the Counterfit repository..."
-    git clone --single-branch --branch dist https://github.com/pramit-d/Counterfit
+    git clone --single-branch --branch dist https://github.com/pramit-d/counterfit
     cd counterfit
     echo "Installing Python packages from requirements.txt..."
     pip install -r requirements.txt
