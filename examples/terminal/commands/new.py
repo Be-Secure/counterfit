@@ -18,13 +18,12 @@ target_dt_obj_map = {
 
 
 def get_datatypes():
-    return list(target_dt_obj_map.keys())
+    return list(target_dt_obj_map.keys()) 
 
 
 def new_cmd(args: argparse.Namespace) -> None:
     """Optional wizard to aid in creating a new attack target.
     """
-
     target_name = args.name.replace(" ", "")
     
     if not args.data_type:
@@ -34,9 +33,7 @@ def new_cmd(args: argparse.Namespace) -> None:
 
     if target_name not in os.listdir(Config.targets_path):
         try:
-            os.mkdir(f"{Config.targets_path}/{target_name}")
-            open(f"{Config.targets_path}/{target_name}/__init__.py", "w").close()
-            with open(f"{Config.targets_path}/{target_name}/{target_name}.py", "w") as f:
+            with open(f"{Config.targets_path}/{target_name}.py", "w") as f:
                 f.write(
                     f"""
 
@@ -44,13 +41,15 @@ def new_cmd(args: argparse.Namespace) -> None:
 
 from counterfit.core.targets import CFTarget
 
-class {target_name.capitalize()}(Target):
+class {target_name.capitalize()}(CFTarget):
     target_name = "{target_name}"
-    target_data_type = "{target_data_type}"
-    target_endpoint = ""
+    data_type = "{target_data_type}"
+    task = ""
+    endpoint = ""
     input_shape = ()
-    target_output_classes = []
-    target_classifier = ""
+    output_classes = []
+    classifier = ""
+    sample_input_path = ""
     X = []
 
     def load(self):
@@ -60,26 +59,19 @@ class {target_name.capitalize()}(Target):
         return x
 """
                 )
+        
+            with open(f"{Config.targets_path}/__init__.py", "a") as init:
+                init.write(
+                    f"\nfrom .{target_name} import {target_name.capitalize()}"
+                )
+            
         except Exception as e:
             CFPrint.warn(f"Failed to write target file: {e}.")
     else:
         CFPrint.warn(
             f"{target_name} already exists. Choose a new name.")
 
-    # Instantiate the new target
-    module_path = ".".join(
-        f"{Config.targets_path}/{target_name}/{target_name}/{target_name.capitalize()}".split("/"))
-    new_target = locate(module_path)
-
-    # Add the target to the session
-    CFState.state().add_target(target_name, new_target())
-
-    # Load the target
-    target = CFState.state().load_target(target_name)
-
-    # Set it as the active target
-    CFState.state().set_active_target(target)
-
+    print(f"{target_name} added successfully!")
 
 new_args = cmd2.Cmd2ArgumentParser()
 new_args.add_argument("-n", "--name", help="a name for the new target", required=True)
