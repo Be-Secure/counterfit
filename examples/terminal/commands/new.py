@@ -33,7 +33,6 @@ def new_cmd(args: argparse.Namespace) -> None:
 
     if target_name not in os.listdir(Config.targets_path):
         try:
-            #os.mkdir(f"{Config.targets_path}/{target_name}")
             with open(f"{Config.targets_path}/{target_name}.py", "w") as f:
                 f.write(
                     f"""

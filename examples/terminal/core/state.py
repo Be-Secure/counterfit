@@ -5,11 +5,6 @@ import sys
 import os
 
 from counterfit import CFAttack, CFPrint, CFTarget, Counterfit
-# from counterfit.core.frameworks import CFFramework
-#from counterfit.targets import (CreditFraud, DigitKeras, Digits, MovieReviewsTarget, SatelliteImages,
-#                                CartPoleInitState, CartPole)
-#from counterfit.targets import * 
-#import counterfit.targets
 import importlib
 
 
