@@ -5,4 +5,3 @@ from .movie_reviews import MovieReviewsTarget
 from .satellite import SatelliteImages
 from .cart_pole import CartPoleInitState, CartPole
 from .testtarget import Testtarget
-from .test import Test
