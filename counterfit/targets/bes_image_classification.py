@@ -7,12 +7,12 @@ class Bes_image_classification(CFTarget):
     target_name = "bes_image_classification"
     data_type = "image"
     task = "classification"
-    endpoint = "./counterfit/targets/satellite/bes-image-classification.h5"
+    endpoint = "./counterfit/targets/bes_image_classification/bes-image-classification.h5"
     img_row, img_col, channel = 28, 28, 1 
     input_shape = (img_row, img_col, channel)
-    output_classes = ["one", "two"]
+    output_classes = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
     classifier = "closed-box"
-    sample_input_path = f"satellite/satellite_images_airplane_stadium_196608.npz"
+    sample_input_path = f"bes_image_classification/bes_image_classification.npz"
     X = []
 
     def load(self):
@@ -40,11 +40,13 @@ class Bes_image_classification(CFTarget):
                         metrics=['accuracy'])
         
         # Save the updated model
-        self.model.save("./counterfit/targets/satellite/modified_bes-image-classification.h5")
-        print("Model loaded and recompiled successfully")
+        self.model.save("./counterfit/targets/bes_image_classification/modified_bes-image-classification.h5")
 
     def predict(self, x):
-        prediction = self.model.predict(x)
-        predicted_class = np.argmax(prediction, axis=-1)
-        return predicted_class
+        predictions = self.model.predict(x)
+        prediction_probabilities = predictions.tolist()
+        #print('prediction_probabilities: ', prediction_probabilities)
+        return prediction_probabilities
+    
+
 
