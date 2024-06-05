@@ -1,14 +1,18 @@
 from __future__ import annotations
 
 import datetime
+import pytz
 import os
 import uuid
+import importlib
+import inspect
+import glob
+import yaml
 
 import orjson
 from counterfit.core.logger import CFLogger, get_attack_logger_obj
 from counterfit.core.options import CFOptions
 from counterfit.core.targets import CFTarget
-
 
 class CFAttack:
     """
@@ -62,7 +66,6 @@ class CFAttack:
         self.run_summary = None
         self.logger: CFLogger = None
 
-
     def prepare_attack(self):
         curr_log = self.options.cf_options["logger"]["current"]
         self.logger = self.set_logger(logger=curr_log)
@@ -106,9 +109,46 @@ class CFAttack:
 
         return scan_folder
 
+    def get_attack_info(self, attack_name: str) -> dict:
+        """Get the category and type of a specific attack from all frameworks.
+
+        Args:
+            attack_name (str): The name of the attack.
+
+        Returns:
+            dict: A dictionary containing the category and type of the attack.
+                If the attack is not found, returns an empty dictionary.
+        """
+        cf_frameworks = importlib.import_module("counterfit.frameworks")
+
+        for framework in cf_frameworks.CFFramework.__subclasses__():
+            framework_path = os.path.dirname(inspect.getfile(framework))
+            
+            for attack in glob.glob(f"{framework_path}/attacks/*.yml"):
+                with open(attack, 'r') as f:
+                    data = yaml.safe_load(f)
+                if data["attack_class"].endswith(attack_name):
+                    return {
+                        "attack_category": data["attack_category"],
+                        "attack_type": data["attack_type"]
+                    }
+        return {}
+
     def save_run_summary(self, filename: str=None, verbose: bool =False) -> None:
+
+        attack_info = self.get_attack_info(self.attack.__class__.__name__)
         run_summary = {
+            "target_name": self.target.target_name,
+            "attack_details": {
+                "attack_name": self.attack.__class__.__name__,
+                "attack_type": attack_info["attack_type"],
+                "attack_category" : attack_info["attack_category"],
+                "attack_framework": self.framework.__class__.__name__,
+                "attack_id": self.attack_id,
+                "created_on": self.created_on
+            },
             "sample_index": self.options.cf_options['sample_index'],
+            "output_classes": self.target.output_classes,
             "initial_labels": self.initial_labels,
             "final_labels": self.final_labels,
             "elapsed_time": self.elapsed_time,
