@@ -7,7 +7,8 @@ class Bes_image_classification(CFTarget):
     target_name = "bes_image_classification"
     data_type = "image"
     task = "classification"
-    endpoint = "./counterfit/targets/bes_image_classification/bes-image-classification.h5"
+    #endpoint = "./counterfit/targets/bes_image_classification/bes-image-classification.h5"
+    endpoint = f"bes_image_classification/bes-image-classification.h5"
     img_row, img_col, channel = 28, 28, 1 
     input_shape = (img_row, img_col, channel)
     output_classes = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
@@ -45,7 +46,6 @@ class Bes_image_classification(CFTarget):
     def predict(self, x):
         predictions = self.model.predict(x)
         prediction_probabilities = predictions.tolist()
-        #print('prediction_probabilities: ', prediction_probabilities)
         return prediction_probabilities
     
 
