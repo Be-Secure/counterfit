@@ -81,6 +81,5 @@ class SatelliteImages(CFTarget):
         # renormalize rowsum to == 1
         aug_probs /= aug_probs.sum(axis=1, keepdims=True)  
         # return a list of class probabilities
-        print('aug_probs.tolist() : ', aug_probs.tolist())
         return aug_probs.tolist()  
         
