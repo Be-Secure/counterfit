@@ -126,3 +126,4 @@ build
 
 # dev env
 cf-venv
+counterfit/targets/
