@@ -237,7 +237,63 @@ To get a full view of the attack and targets, run the `list targets` and `list
 - **Tabular Targets**: cart_pole, cart_pole_initstate, creditfraud
 - **Tabular Attacks**: boundary, carlini, deepfool, elastic_net, functionally_equivalent_extraction, hop_skip_jump, knockoff_nets, label_only_boundary_distance, mi_face, newtonfool, projected_gradient_descent_numpy, saliency_map, spatial_transformation
 
+## Onboard new target
+**Steps to Onboard a New Target**
+1. Start CounterFit
 
+   First, start CounterFit by following these steps:
+   * Activate the Conda environment:
+  
+     ```sh
+     conda activate counterfit
+     ```
+   * Navigate to the source code directory of CounterFit:
+     ```sh
+     cd /path/to/counterfit
+   * Start CounterFit:
+     ```sh
+     counterfit
+     ```
+2. Add a New Target
+
+   Add a new target using the `new` command:
+   ```sh
+   new -n <target_name> -d <input_data_type>
+   ```
+   `target_name` - The name of the model file you want to onboard.
+   
+   `input_data_type` - The input data type of the machine learning model. Options: text, image, tabular.
+
+3. Move Files to the Target Folder
+
+   Navigate to the target folder of CounterFit. Typically, the path is `counterfit/counterfit/targets`.
+   * Move the machine learning model file (`.h5`, `.pt`, etc.) to the folder created with the name you provided as target_name.
+   * Move the input file (`.npz` format) into the same folder.
+  
+4. Edit the Target File
+
+   In the target folder, you will see a new Python file created with the name of the `target_name` you provided. Open this file and edit it to provide the required values to the variables.
+
+   **Variables to Define**
+   * **task** - Type of work the model performs (e.g., classification, regression).
+   * **endpoint** - Path/API of the machine learning model.
+   * **input_shape** - Input shape of the model (can be found in the model training code).
+   * **output_classes** - The labels of the output/prediction.
+   * **sample_input_path** - The path of the sample input files to predict (in .npz format).
+
+5. Define Load and Predict Methods
+
+   Define `load` and `predict` methods.
+
+   **load Method**
+    The load method should include the functionality to load the input files and the machine learning model. 
+
+   **predict Method**
+    The predict method should analyze the input provided in the parameter and return the predicted output in a 2D array. The array should contain the predicted scores of all output_classes.
+
+For more details check the other target files available in `targets` folder.
+Following these steps will allow you to successfully onboard a new target in the CounterFit tool. Ensure all paths and configurations are correctly set up to enable accurate model predictions and assessments.
+   
 ## **Acknowledgments**
 Counterfit leverages excellent open source projects, including,
 
