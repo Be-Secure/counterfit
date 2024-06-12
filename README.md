@@ -264,13 +264,15 @@ To get a full view of the attack and targets, run the `list targets` and `list
    
    `input_data_type` - The input data type of the machine learning model. Options: text, image, tabular.
 
-3. Move Files to the Target Folder
+   `Note: If target_name contains '-', replace it with '_'. Ex: bes-image-classification -> bes_image_classification`
+
+4. Move Files to the Target Folder
 
    Navigate to the target folder of CounterFit. Typically, the path is `counterfit/counterfit/targets`.
    * Move the machine learning model file (`.h5`, `.pt`, etc.) to the folder created with the name you provided as target_name.
    * Move the input file (`.npz` format) into the same folder.
   
-4. Edit the Target File
+5. Edit the Target File
 
    In the target folder, you will see a new Python file created with the name of the `target_name` you provided. Open this file and edit it to provide the required values to the variables.
 
@@ -281,7 +283,7 @@ To get a full view of the attack and targets, run the `list targets` and `list
    * **output_classes** - The labels of the output/prediction.
    * **sample_input_path** - The path of the sample input files to predict (in .npz format).
 
-5. Define Load and Predict Methods
+6. Define Load and Predict Methods
 
    Define `load` and `predict` methods.
 
