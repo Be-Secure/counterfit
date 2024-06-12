@@ -293,7 +293,12 @@ To get a full view of the attack and targets, run the `list targets` and `list
 
 For more details check the other target files available in `targets` folder.
 Following these steps will allow you to successfully onboard a new target in the CounterFit tool. Ensure all paths and configurations are correctly set up to enable accurate model predictions and assessments.
-   
+
+## Onboard Existing Targets
+To perform CounterFit assessment on the existing targets in Be-Secure, follow the steps outlined in the documentation for each target. Below is the list of currently available targets along with their respective documentation links:
+
+1. [**bes-image-classification**](https://github.com/Be-Secure/bes-image-classification)
+
 ## **Acknowledgments**
 Counterfit leverages excellent open source projects, including,
 
