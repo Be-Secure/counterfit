@@ -64,7 +64,9 @@ class {target_name.capitalize()}(CFTarget):
                 init.write(
                     f"\nfrom .{target_name} import {target_name.capitalize()}"
                 )
-            
+                
+            target_dir_path = f"{Config.targets_path}/{target_name}"
+            os.makedirs(target_dir_path, exist_ok=True)
         except Exception as e:
             CFPrint.warn(f"Failed to write target file: {e}.")
     else:
